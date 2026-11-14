@@ -1,0 +1,25 @@
+{
+  "name": "e-dema",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "e-DEMA — kehadiran mahasiswa guru (Netlify Functions + Netlify Database)",
+  "engines": {
+    "node": ">=20.12.2"
+  },
+  "scripts": {
+    "build:netlify": "node tools/build-netlify.mjs",
+    "dev": "netlify dev",
+    "db:migrate": "netlify database migrations apply",
+    "db:new": "netlify database migrations new",
+    "check": "node --check netlify/functions/api.mjs"
+  },
+  "dependencies": {
+    "@netlify/database": "^2.0.3",
+    "bcryptjs": "^3.0.3"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.2.17",
+    "@netlify/functions": "^6.1.1"
+  }
+}

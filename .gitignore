@@ -2,6 +2,14 @@
 api/config.local.php
 var/
 .runtime/
+.env
+.env.*
+!.env.example
+
+# Netlify / Node
+node_modules/
+.netlify/
+public/
 
 # Berkas sistem
 Thumbs.db

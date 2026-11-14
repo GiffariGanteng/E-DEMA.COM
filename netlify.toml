@@ -1,0 +1,62 @@
+# e-DEMA — konfigurasi Netlify
+#
+# Hanya isi folder `public/` yang dipublikasikan. Folder `api/`, `tools/`,
+# `database/`, dan `var/` TIDAK ikut ter-deploy sehingga berkas PHP/SQL/CSV
+# tidak bisa diunduh publik.
+
+[build]
+  command = "node tools/build-netlify.mjs"
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Klien frontend memanggil `api/index.php?action=...`.
+# Rewrite ini mempertahankan query string dan method POST.
+[[redirects]]
+  from = "/api/index.php"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+# Berkas lama yang pernah terekspos: pastikan 404, bukan diunduh.
+[[redirects]]
+  from = "/tools/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/database/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/var/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.php"
+  to = "/404.html"
+  status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

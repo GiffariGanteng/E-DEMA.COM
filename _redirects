@@ -1,0 +1,10 @@
+# Pengaman untuk deploy lama yang masih memakai root sebagai publish directory.
+# Deploy baru memakai public/ + netlify.toml, jadi berkas ini hanya jaring pengaman.
+
+/api/index.php  /.netlify/functions/api  200
+/api/*          /.netlify/functions/api  200
+
+/tools/*        /404.html                404
+/database/*     /404.html                404
+/var/*          /404.html                404
+/api/config.local.php  /404.html         404

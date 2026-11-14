@@ -7,6 +7,13 @@ rekap + ekspor, dan kartu QR.
 
 Alamat resmi: **https://e-dema.com/**
 
+Dua jalur deploy tersedia:
+
+- **Netlify Functions + Netlify Database** — lihat
+  **[NETLIFY-DEPLOY.md](NETLIFY-DEPLOY.md)**. Hanya folder `public/` yang
+  dipublikasikan; API PHP sudah diporting ke `netlify/functions/api.mjs`.
+- **Hosting PHP + MySQL** — lihat **[PANDUAN-DEPLOY.md](PANDUAN-DEPLOY.md)**.
+
 Panduan lengkap mengaktifkan domain, MySQL, dan HTTPS ada di
 **[PANDUAN-DEPLOY.md](PANDUAN-DEPLOY.md)**.
 

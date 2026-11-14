@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Portal Mahasiswa Guru • e-DEMA</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --navy: #123f63;
+      --navy-2: #0e7383;
+      --accent: #16a8b8;
+      --accent-soft: #e6f7f9;
+      --ink: #16232c;
+      --soft: #5b6b7a;
+      --muted: #8b98a4;
+      --line: #e3e9ee;
+      --bg: #f4f7f9;
+      --card: #ffffff;
+      --red: #d14545;
+      --amber: #b7791f;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .top {
+      background: linear-gradient(120deg, var(--navy), var(--navy-2));
+      color: #fff;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: rgba(255, 255, 255, .10);
+      border: 1px solid rgba(255, 255, 255, .18);
+      padding: 3px;
+    }
+    .brand-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .brand strong { display: block; font-size: 15px; letter-spacing: .2px; }
+    .brand span { font-size: 11px; opacity: .7; display: block; }
+    .brand .motto {
+      margin-top: 3px; font-size: 10.5px; letter-spacing: .04em;
+      color: #8fe3c4; opacity: .95; font-style: italic;
+    }
+    .who { display: flex; align-items: center; gap: 14px; }
+    .who .meta { text-align: right; font-size: 11px; line-height: 1.4; opacity: .85; }
+    .who .meta strong { display: block; font-size: 12.5px; }
+    .ghost {
+      border: 1px solid rgba(255, 255, 255, .35);
+      background: transparent; color: #fff;
+      border-radius: 10px; padding: 8px 13px;
+      font: inherit; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: background .15s ease;
+    }
+    .ghost:hover { background: rgba(255, 255, 255, .12); }
+    .ghost:disabled { opacity: .5; cursor: default; }
+
+    main { max-width: 1040px; margin: 0 auto; padding: 22px 18px 40px; }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 18px; flex-wrap: wrap;
+      box-shadow: 0 10px 30px -22px rgba(13, 47, 63, .45);
+    }
+    .eyebrow {
+      margin: 0 0 6px; font-size: 11.5px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+    }
+    .hero h1 { margin: 0; font-size: 25px; line-height: 1.25; letter-spacing: -.4px; }
+    .hero p.sub { margin: 7px 0 0; font-size: 13px; color: var(--soft); }
+    .chip {
+      background: var(--accent-soft); color: #0f6b52;
+      border-radius: 999px; padding: 8px 15px;
+      font-size: 12px; font-weight: 700; white-space: nowrap;
+    }
+
+    .alert {
+      margin-top: 14px; padding: 12px 15px; border-radius: 12px;
+      background: #fdecec; color: #9c2b2b; font-size: 13px; line-height: 1.55;
+      border: 1px solid #f6d2d2;
+    }
+
+    .grid {
+      display: grid; gap: 14px; margin-top: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    }
+    .kpi {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 18px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .kpi > span {
+      font-size: 11px; font-weight: 700; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .kpi strong { font-size: 27px; line-height: 1.1; letter-spacing: -.6px; }
+    .kpi strong.mono { font-size: 21px; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+    .kpi small { font-size: 11.5px; color: var(--soft); line-height: 1.45; }
+    .kpi .ok { color: var(--accent); }
+    .kpi .warn { color: var(--amber); }
+    .kpi .bad { color: var(--red); }
+    .bar { height: 6px; border-radius: 999px; background: #eef2f5; overflow: hidden; margin-top: 4px; }
+    .bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width .4s ease; }
+
+    .panel {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); margin-top: 16px; overflow: hidden;
+    }
+    .panel-head {
+      padding: 16px 18px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .panel-head h2 { margin: 0; font-size: 14.5px; letter-spacing: -.2px; }
+    .panel-head span { font-size: 11.5px; color: var(--muted); }
+    .panel-body { padding: 16px 18px; }
+
+    .facts {
+      margin: 0; display: grid; gap: 14px 22px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .facts div { min-width: 0; }
+    .facts dt {
+      font-size: 10.5px; font-weight: 700; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 3px;
+    }
+    .facts dd { margin: 0; font-size: 13.5px; font-weight: 500; overflow-wrap: anywhere; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th {
+      text-align: left; padding: 10px 18px; background: #f8fafb;
+      font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--muted); font-weight: 700; white-space: nowrap;
+      border-bottom: 1px solid var(--line);
+    }
+    td { padding: 11px 18px; border-bottom: 1px solid #f0f4f6; vertical-align: top; }
+    tr:last-child td { border-bottom: 0; }
+    .badge {
+      display: inline-block; padding: 3px 9px; border-radius: 999px;
+      font-size: 10.5px; font-weight: 700; white-space: nowrap;
+    }
+    .badge-hadir, .badge-lulus { background: var(--accent-soft); color: #0f6b52; }
+    .badge-terlambat, .badge-proses { background: #fdf4e1; color: var(--amber); }
+    .badge-izin, .badge-sakit, .badge-belum { background: #eef2f6; color: #51616e; }
+    .badge-none { background: #f4f6f8; color: var(--muted); }
+    .muted { color: var(--muted); }
+
+    .qr-body { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+    .qr-box {
+      width: 202px; height: 202px; border-radius: 14px; flex: 0 0 auto;
+      background: #fff; border: 1px solid var(--line);
+      display: grid; place-items: center; padding: 6px;
+    }
+    .qr-box img, .qr-box canvas { display: block; width: 190px; height: 190px; }
+    .qr-info { min-width: 0; }
+    .qr-info p { margin: 0 0 6px; font-size: 13.5px; font-weight: 600; }
+    .qr-info p.mono { font-weight: 500; color: var(--soft); font-size: 12.5px; }
+    .btn-solid {
+      margin-top: 8px; border: 0; border-radius: 10px;
+      background: var(--navy); color: #fff; cursor: pointer;
+      padding: 9px 14px; font: inherit; font-size: 12px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 7px;
+    }
+    .btn-solid:hover { background: var(--navy-2); }
+    .btn-solid:disabled { opacity: .5; cursor: default; }
+
+    .empty, .loading {
+      padding: 26px 18px; text-align: center; color: var(--muted); font-size: 13px;
+    }
+    footer {
+      max-width: 1040px; margin: 0 auto; padding: 0 18px 28px;
+      font-size: 11px; color: var(--muted); line-height: 1.6;
+    }
+    @media (max-width: 560px) {
+      .hero h1 { font-size: 21px; }
+      .who .meta { display: none; }
+      .grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+      .kpi strong { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark"><img src="assets/img/DEMAASLI.png" alt="Logo DEMA"></div>
+      <div>
+        <strong>e-DEMA</strong>
+        <span>Dewan Mahasiswa • Portal Mahasiswa Guru</span>
+        <span class="motto">Mengajar • Membantu Pondok • Belajar</span>
+      </div>
+    </div>
+    <div class="who">
+      <div class="meta">
+        <strong id="acc-name">—</strong>
+        <span id="acc-email">—</span>
+      </div>
+      <a class="ghost" href="scanner.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+        <i class="fa-solid fa-qrcode"></i> Scanner
+      </a>
+      <button class="ghost" type="button" id="btn-logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="alert" id="alert" hidden></div>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow" id="p-kode">Memuat data…</p>
+        <h1 id="p-name">Memuat…</h1>
+        <p class="sub" id="p-meta">—</p>
+      </div>
+      <div class="chip" id="p-tahun">—</div>
+    </section>
+
+    <section class="grid">
+      <article class="kpi">
+        <span>Kehadiran</span>
+        <strong id="kpi-hadir">—</strong>
+        <small id="kpi-hadir-sub">Menunggu data</small>
+        <div class="bar"><i id="kpi-bar"></i></div>
+      </article>
+      <article class="kpi">
+        <span>NIM</span>
+        <strong class="mono" id="kpi-nim">—</strong>
+        <small id="kpi-nim-sub">Nomor induk mahasiswa</small>
+      </article>
+      <article class="kpi">
+        <span>Lulus Tahfidzh</span>
+        <strong id="kpi-tahfidz">—</strong>
+        <small id="kpi-tahfidz-sub">Keterangan dari pondok</small>
+      </article>
+      <article class="kpi">
+        <span>Jumlah Pelanggaran</span>
+        <strong id="kpi-violations">—</strong>
+        <small id="kpi-violations-sub">Catatan kedisiplinan</small>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Identitas Mahasiswa Guru</h2>
+        <span>Data resmi dari Direktorat</span>
+      </div>
+      <div class="panel-body">
+        <dl class="facts">
+          <div><dt>Kode Guru</dt><dd id="f-kode">—</dd></div>
+          <div><dt>NIM</dt><dd id="f-nim">—</dd></div>
+          <div><dt>Prodi</dt><dd id="f-prodi">—</dd></div>
+          <div><dt>Semester</dt><dd id="f-semester">—</dd></div>
+          <div><dt>Tahun Guru</dt><dd id="f-tahun">—</dd></div>
+          <div><dt>Kamar</dt><dd id="f-kamar">—</dd></div>
+          <div><dt>Daerah</dt><dd id="f-daerah">—</dd></div>
+          <div><dt>Email</dt><dd id="f-email">—</dd></div>
+          <div><dt>Status Tahfidzh</dt><dd id="f-tahfidz">—</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Kode QR Kehadiran</h2>
+        <span>Tunjukkan saat absensi</span>
+      </div>
+      <div class="panel-body qr-body">
+        <div class="qr-box" id="qr-mount"><span class="muted" style="font-size:12px">Memuat QR…</span></div>
+        <div class="qr-info">
+          <p id="qr-name">—</p>
+          <p class="mono" id="qr-code">—</p>
+          <button class="btn-solid" type="button" id="btn-qr-download">
+            <i class="fa-solid fa-download"></i> Unduh QR (PNG)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Riwayat Kehadiran</h2>
+        <span id="hist-count">15 catatan terakhir</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Kegiatan</th>
+              <th>Jam</th>
+              <th>Status</th>
+              <th>Catatan</th>
+            </tr>
+          </thead>
+          <tbody id="hist-body">
+            <tr><td colspan="5"><div class="loading">Memuat riwayat…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Portal ini menampilkan data pribadi. Jangan bagikan tautan atau password kepada orang lain.<br>
+    https://e-dema.com/ • DEMA • Dewan Mahasiswa
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/portal.js"></script>
+</body>
+</html>

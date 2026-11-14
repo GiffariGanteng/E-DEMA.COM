@@ -1,0 +1,30 @@
+# e-DEMA — lindungi berkas internal (Apache).
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Paksa HTTPS di domain publik; localhost/LAN tetap HTTP untuk pengembangan.
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+    RewriteCond %{HTTP_HOST} !^localhost [NC]
+    RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+RedirectMatch 404 ^/(var|database|tools|api/lib)(/|$)
+RedirectMatch 404 ^/api/config\.local\.php$
+
+<FilesMatch "\.(sqlite|sqlite3|db|sql|csv|log|ini|md)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

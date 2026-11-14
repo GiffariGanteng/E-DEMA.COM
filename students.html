@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Data Mahasiswa Guru • e-DEMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="students" data-title="Data Mahasiswa Guru">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Data Mahasiswa Guru</h1>
+            <p class="page-sub">Guru Tahun 1 sampai Last Team — kode, email, NIM, prodi, semester, kamar, daerah, tahfidz, dan pelanggaran.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" id="btn-print-all" type="button"><i class="fa-solid fa-id-card"></i> Cetak ID Card</button>
+            <button class="btn btn-accent" id="btn-add" type="button"><i class="fa-solid fa-plus"></i> Tambah Guru</button>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Daftar Guru &amp; Anggota</h2>
+              <p class="panel-sub" id="student-count">—</p>
+            </div>
+            <div class="panel-tools">
+              <button class="btn btn-sm" id="btn-autofill" type="button" title="Isi kode, email, dan semester yang masih kosong">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Lengkapi Otomatis
+              </button>
+              <button class="btn btn-sm" id="btn-export" type="button"><i class="fa-solid fa-file-csv"></i> Ekspor CSV</button>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="toolbar">
+              <div class="field-group grow">
+                <label class="field-label" for="search">Cari</label>
+                <div class="search-field">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input class="input" id="search" placeholder="Nama, NIM, kode, email, prodi, kamar, atau daerah..." autocomplete="off">
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="filter-tahun">Tahun</label>
+                <select class="select" id="filter-tahun"></select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="filter-semester">Semester</label>
+                <select class="select" id="filter-semester"></select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="filter-nim">NIM</label>
+                <select class="select" id="filter-nim">
+                  <option value="">Semua</option>
+                  <option value="ada">Sudah ada</option>
+                  <option value="kosong">Belum ada</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="filter-status">Status</label>
+                <select class="select" id="filter-status">
+                  <option value="">Semua</option>
+                  <option value="active">Aktif</option>
+                  <option value="inactive">Nonaktif</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-body tight">
+            <div class="table-wrap">
+              <table class="data" id="table-students">
+                <thead>
+                  <tr>
+                    <th style="width:46px">No</th>
+                    <th>Kode</th>
+                    <th style="min-width:200px">Nama</th>
+                    <th style="min-width:190px">Email</th>
+                    <th>Prodi</th>
+                    <th>Smt</th>
+                    <th>Tahun</th>
+                    <th>Kamar</th>
+                    <th>Daerah</th>
+                    <th>Tahfidz</th>
+                    <th class="num">Pelanggaran</th>
+                    <th>Status</th>
+                    <th class="num">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="pagination"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span>e-DEMA • Sistem Manajemen Kehadiran Barcode/QR Code</span>
+        <span>DEMA • Dewan Mahasiswa</span>
+      </footer>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  </div>
+
+  <!-- Modal form guru -->
+  <div class="modal" id="modal-form">
+    <div class="modal-card" style="max-width:760px">
+      <div class="modal-head">
+        <div>
+          <h3 class="modal-title" id="modal-form-title">Tambah Guru</h3>
+          <p class="modal-sub">Kode, email, dan semester diisi otomatis bila dikosongkan</p>
+        </div>
+        <button class="btn btn-icon" type="button" data-close-modal="modal-form"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="student-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="field-group">
+              <label class="field-label" for="f-kode">Kode Guru</label>
+              <input class="input" id="f-kode" placeholder="Kosongkan untuk dibuat otomatis">
+              <span class="field-hint">Contoh: GRD-05-014. Dipakai untuk identitas &amp; kartu.</span>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-nomor">NIM (opsional)</label>
+              <input class="input" id="f-nomor" inputmode="numeric" placeholder="Kosongkan bila belum ada">
+              <span class="field-hint">NIM yang belum keluar boleh dikosongkan dan diisi menyusul.</span>
+            </div>
+            <div class="field-group full">
+              <label class="field-label" for="f-name">Nama Lengkap</label>
+              <input class="input" id="f-name" placeholder="Nama lengkap guru" required>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-gelar">Gelar (opsional)</label>
+              <input class="input" id="f-gelar" placeholder="S.Pd., M.Ag.">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-email">Email</label>
+              <input class="input" id="f-email" type="email" placeholder="nama.belakang">
+              <span class="field-hint" id="email-hint">Kosongkan untuk dibuat otomatis.</span>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-tahun">Tahun Guru</label>
+              <select class="select" id="f-tahun"></select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-prodi">Prodi</label>
+              <select class="select" id="f-prodi"></select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-semester">Semester</label>
+              <input class="input" id="f-semester" type="number" min="1" max="30" placeholder="Otomatis dari NIM / tahun">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-kamar">Kamar</label>
+              <input class="input" id="f-kamar" placeholder="Contoh: Café Harmony">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-daerah">Daerah</label>
+              <input class="input" id="f-daerah" placeholder="Contoh: Ponorogo">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-tahfidz">Keterangan Lulus Tahfidz</label>
+              <select class="select" id="f-tahfidz">
+                <option value="">Belum ada keterangan</option>
+                <option value="Belum Lulus">Belum Lulus</option>
+                <option value="Sedang Proses">Sedang Proses</option>
+                <option value="Lulus">Lulus</option>
+              </select>
+              <span class="field-hint">Tampil pada portal pribadi guru.</span>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-violations">Jumlah Pelanggaran</label>
+              <input class="input" id="f-violations" type="number" min="0" max="999" step="1" value="0">
+              <span class="field-hint">Jumlah pelanggaran yang tercatat (0 bila tidak ada).</span>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-gender">Jenis Kelamin</label>
+              <select class="select" id="f-gender">
+                <option value="Putra">Putra</option>
+                <option value="Putri">Putri</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-phone">No. HP (opsional)</label>
+              <input class="input" id="f-phone" placeholder="08xxxxxxxxxx">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="f-barcode">Kode Barcode / QR</label>
+              <div style="display:flex;gap:8px">
+                <input class="input" id="f-barcode" readonly>
+                <button class="btn" type="button" id="btn-regen" title="Buat ulang kode">
+                  <i class="fa-solid fa-arrows-rotate"></i>
+                </button>
+              </div>
+            </div>
+            <div class="field-group full">
+              <label class="field-label" style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                <input type="checkbox" id="f-active" checked style="accent-color:var(--accent);width:15px;height:15px">
+                Aktif (dihitung pada jadwal kehadiran)
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn" type="button" data-close-modal="modal-form">Batal</button>
+          <button class="btn btn-accent" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal kartu QR -->
+  <div class="modal" id="modal-card">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 class="modal-title">Kartu Anggota</h3>
+          <p class="modal-sub">QR Code untuk pemindaian kehadiran</p>
+        </div>
+        <button class="btn btn-icon" type="button" data-close-modal="modal-card"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div id="card-preview"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" type="button" id="btn-download-qr"><i class="fa-solid fa-download"></i> Unduh QR</button>
+        <button class="btn btn-accent" type="button" id="btn-print-card"><i class="fa-solid fa-print"></i> Cetak Kartu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area cetak -->
+  <div class="print-area" id="print-area"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/students.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Keterangan Izin/Sakit • e-DEMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="keterangan" data-title="Keterangan Izin/Sakit">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Keterangan Izin / Sakit</h1>
+            <p class="page-sub">Khusus admin &amp; operator — catat peserta yang berhalangan hadir.</p>
+          </div>
+          <div class="page-actions">
+            <a href="scanner.html" class="btn btn-accent"><i class="fa-solid fa-qrcode"></i> Buka Scanner</a>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2 class="panel-title">Catat Keterangan</h2>
+                <p class="panel-sub">Status izin atau sakit untuk mahasiswa guru</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <form id="keterangan-form">
+                <div class="field-group" style="margin-bottom:12px">
+                  <label class="field-label" for="k-schedule">Agenda kegiatan</label>
+                  <select class="select" id="k-schedule" required></select>
+                </div>
+                <div class="field-group" style="margin-bottom:12px">
+                  <label class="field-label" for="k-student">Mahasiswa guru</label>
+                  <select class="select" id="k-student" required></select>
+                </div>
+                <div class="field-group" style="margin-bottom:12px">
+                  <label class="field-label" for="k-status">Status</label>
+                  <select class="select" id="k-status">
+                    <option value="izin">Izin</option>
+                    <option value="sakit">Sakit</option>
+                  </select>
+                </div>
+                <div class="field-group" style="margin-bottom:14px">
+                  <label class="field-label" for="k-note">Keterangan (opsional)</label>
+                  <input class="input" id="k-note" placeholder="Contoh: surat dokter / izin pondok">
+                </div>
+                <button class="btn btn-accent btn-block" type="submit">
+                  <i class="fa-solid fa-floppy-disk"></i> Simpan keterangan
+                </button>
+              </form>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2 class="panel-title">Keterangan Tercatat</h2>
+                <p class="panel-sub" id="keterangan-count">—</p>
+              </div>
+            </div>
+            <div class="panel-body tight">
+              <div class="table-wrap">
+                <table class="data" id="table-keterangan">
+                  <thead>
+                    <tr>
+                      <th>Anggota</th>
+                      <th>Status</th>
+                      <th>Keterangan</th>
+                      <th class="num">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <span>e-DEMA • Sistem Manajemen Kehadiran Barcode/QR Code</span>
+        <span>DEMA • Dewan Mahasiswa</span>
+      </footer>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/keterangan.js"></script>
+</body>
+</html>

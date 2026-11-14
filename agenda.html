@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Agenda Kegiatan • e-DEMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="agenda" data-title="Agenda Kegiatan">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Agenda Kegiatan</h1>
+            <p class="page-sub">Semua kegiatan berlaku untuk seluruh mahasiswa guru — tanpa pembagian kelas.</p>
+          </div>
+          <div class="page-actions">
+            <a href="scanner.html" class="btn btn-accent"><i class="fa-solid fa-qrcode"></i> Buka Scanner</a>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Jadwal Kegiatan</h2>
+              <p class="panel-sub" id="schedule-count">—</p>
+            </div>
+            <div class="panel-tools">
+              <input class="input" type="date" id="filter-date" style="min-height:32px;max-width:170px;font-size:12.5px">
+              <button class="btn btn-sm btn-accent" id="btn-add-schedule" type="button"><i class="fa-solid fa-plus"></i> Tambah Kegiatan</button>
+            </div>
+          </div>
+          <div class="panel-body tight">
+            <div class="table-wrap">
+              <table class="data" id="table-schedules">
+                <thead>
+                  <tr>
+                    <th>Waktu</th>
+                    <th>Kegiatan</th>
+                    <th>Lokasi</th>
+                    <th>Kehadiran</th>
+                    <th class="num">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span>e-DEMA • Sistem Manajemen Kehadiran Barcode/QR Code</span>
+        <span>DEMA • Dewan Mahasiswa</span>
+      </footer>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  </div>
+
+  <!-- Modal agenda -->
+  <div class="modal" id="modal-schedule">
+    <div class="modal-card" style="max-width:560px">
+      <div class="modal-head">
+        <div>
+          <h3 class="modal-title" id="modal-schedule-title">Tambah Kegiatan</h3>
+          <p class="modal-sub">Kegiatan berlaku untuk semua mahasiswa guru</p>
+        </div>
+        <button class="btn btn-icon" type="button" data-close-modal="modal-schedule"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="schedule-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="field-group full">
+              <label class="field-label" for="s-title">Nama Kegiatan</label>
+              <input class="input" id="s-title" placeholder="Contoh: Kajian Kitab Kuning" required>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="s-date">Tanggal</label>
+              <input class="input" type="date" id="s-date" required>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="s-start">Jam Mulai</label>
+              <input class="input" type="time" id="s-start" value="07:30" required>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="s-end">Jam Selesai</label>
+              <input class="input" type="time" id="s-end" value="09:00" required>
+            </div>
+            <div class="field-group full">
+              <label class="field-label" for="s-location">Lokasi (opsional)</label>
+              <input class="input" id="s-location" placeholder="Contoh: Masjid Jami">
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn" type="button" data-close-modal="modal-schedule">Batal</button>
+          <button class="btn btn-accent" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal QR agenda -->
+  <div class="modal" id="modal-qr">
+    <div class="modal-card" style="max-width:420px">
+      <div class="modal-head no-print">
+        <div>
+          <h3 class="modal-title">Kode QR Agenda</h3>
+          <p class="modal-sub">Cetak / tampilkan agar dipindai mahasiswa guru</p>
+        </div>
+        <button class="btn btn-icon" type="button" data-close-modal="modal-qr"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="qr-print-area" id="qr-print-area">
+          <img class="qr-print-logo" src="assets/img/DEMAASLI.png" alt="Logo DEMA">
+          <div class="qr-print-title" id="qr-title">—</div>
+          <div class="qr-print-meta" id="qr-meta">—</div>
+          <div class="qr-mount" id="qr-agenda"></div>
+          <div class="qr-print-code" id="qr-code">—</div>
+          <div class="qr-print-foot">DEMA • Dewan Mahasiswa • e-DEMA</div>
+        </div>
+      </div>
+      <div class="modal-foot no-print">
+        <button class="btn" type="button" data-close-modal="modal-qr">Tutup</button>
+        <button class="btn" id="btn-qr-download" type="button"><i class="fa-solid fa-download"></i> Unduh PNG</button>
+        <button class="btn btn-accent" id="btn-qr-print" type="button"><i class="fa-solid fa-print"></i> Cetak</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/agenda.js"></script>
+</body>
+</html>

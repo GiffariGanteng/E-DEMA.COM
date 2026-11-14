@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Akun &amp; Password • e-DEMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="akun" data-title="Akun &amp; Password">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Akun &amp; Password</h1>
+            <p class="page-sub">Ganti password akun administrator dan operator. Akun guru dikelola terpisah di portal guru.</p>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Akun Staf</h2>
+              <p class="panel-sub" id="staff-count">—</p>
+            </div>
+            <div class="panel-tools">
+              <button class="btn btn-sm" type="button" id="btn-refresh"><i class="fa-solid fa-arrows-rotate"></i> Muat ulang</button>
+            </div>
+          </div>
+
+          <div class="panel-body tight">
+            <div class="table-wrap">
+              <table class="data" id="table-staff">
+                <thead>
+                  <tr>
+                    <th style="width:46px">No</th>
+                    <th style="min-width:190px">Nama</th>
+                    <th style="min-width:220px">Email</th>
+                    <th>Peran</th>
+                    <th>Dibuat</th>
+                    <th class="num">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:16px">
+          <div class="panel-body">
+            <p class="muted small" style="margin:0;line-height:1.7">
+              <i class="fa-solid fa-circle-info"></i>
+              Password baru langsung berlaku pada login berikutnya. Jika Anda mengganti password akun Anda sendiri,
+              sesi yang sedang aktif tetap berjalan sampai Anda keluar. Gunakan minimal 6 karakter dan hindari
+              password yang mudah ditebak karena situs ini dapat diakses publik.
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span>e-DEMA • Sistem Manajemen Kehadiran Barcode/QR Code</span>
+        <span>DEMA • Dewan Mahasiswa</span>
+      </footer>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  </div>
+
+  <div class="modal" id="modal-password">
+    <div class="modal-card" style="max-width:480px">
+      <div class="modal-head">
+        <div>
+          <h3 class="modal-title" id="modal-password-title">Ubah Password</h3>
+          <p class="modal-sub" id="modal-password-sub">—</p>
+        </div>
+        <button class="btn btn-icon" type="button" data-close-modal="modal-password"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="password-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="field-group full">
+              <label class="field-label" for="p-pass">Password Baru</label>
+              <input class="input" id="p-pass" type="password" autocomplete="new-password" minlength="6" placeholder="Minimal 6 karakter" required>
+            </div>
+            <div class="field-group full">
+              <label class="field-label" for="p-pass2">Ulangi Password Baru</label>
+              <input class="input" id="p-pass2" type="password" autocomplete="new-password" minlength="6" placeholder="Ketik ulang password" required>
+            </div>
+            <div class="field-group full">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12.5px">
+                <input type="checkbox" id="p-show" style="accent-color:var(--accent);width:15px;height:15px">
+                Tampilkan password
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn" type="button" data-close-modal="modal-password">Batal</button>
+          <button class="btn btn-accent" type="submit"><i class="fa-solid fa-key"></i> Simpan Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/accounts.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Dashboard • e-DEMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="dashboard" data-title="Dashboard">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Dashboard Kehadiran</h1>
+            <p class="page-sub" id="page-sub">Ringkasan kehadiran hari ini</p>
+          </div>
+          <div class="page-actions">
+            <a href="scanner.html" class="btn btn-accent"><i class="fa-solid fa-qrcode"></i> Buka Scanner</a>
+            <button class="btn" id="btn-refresh" type="button"><i class="fa-solid fa-rotate"></i> Segarkan</button>
+          </div>
+        </div>
+
+        <section class="dema-banner">
+          <img src="assets/img/DEMAASLI.png" alt="Logo DEMA Student Council">
+          <div>
+            <h2>Dewan Mahasiswa e-DEMA</h2>
+            <p>Dashboard kehadiran mahasiswa guru • <span id="banner-date">—</span></p>
+          </div>
+          <span class="banner-tag"><i class="fa-solid fa-star"></i> DEMA</span>
+        </section>
+
+        <div class="kpi-grid" id="kpi-grid"></div>
+
+        <div class="grid grid-2">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2 class="panel-title">Komposisi Kehadiran</h2>
+                <p class="panel-sub">Seluruh peserta terjadwal hari ini</p>
+              </div>
+              <span class="chip" id="chip-pct">—</span>
+            </div>
+            <div class="panel-body">
+              <div class="chart-box"><canvas id="chart-status"></canvas></div>
+              <div class="legend" id="status-legend"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2 class="panel-title">Kehadiran per Kegiatan</h2>
+                <p class="panel-sub">Persentase peserta yang sudah tercatat</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart-box"><canvas id="chart-class"></canvas></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Jadwal Kegiatan Hari Ini</h2>
+              <p class="panel-sub">Pilih jadwal untuk membuka halaman scanner</p>
+            </div>
+            <a href="agenda.html" class="btn btn-sm" id="link-kelola-jadwal"><i class="fa-solid fa-calendar-plus"></i> Kelola agenda</a>
+          </div>
+          <div class="panel-body tight">
+            <div class="table-wrap">
+              <table class="data" id="table-today">
+                <thead>
+                  <tr>
+                    <th>Waktu</th>
+                    <th>Kegiatan</th>
+                    <th>Lokasi</th>
+                    <th>Kehadiran</th>
+                    <th style="min-width:150px">Progres</th>
+                    <th class="num">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <div class="grid grid-2">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2 class="panel-title">Scan Terbaru</h2>
+                <p class="panel-sub">10 pemindaian terakhir hari ini</p>
+              </div>
+            </div>
+            <div class="panel-body tight">
+              <div class="table-wrap">
+                <table class="data" id="table-recent">
+                  <thead>
+                    <tr>
+                      <th>Jam</th>
+                      <th>Anggota</th>
+                      <th>Kegiatan</th>
+                      <th class="num">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2 class="panel-title">Belum Hadir</h2>
+                <p class="panel-sub">Peserta yang belum melakukan scan</p>
+              </div>
+              <div class="panel-tools">
+                <select class="select" id="filter-schedule" style="min-height:32px;font-size:12px;max-width:210px"></select>
+              </div>
+            </div>
+            <div class="panel-body tight">
+              <div class="table-wrap">
+                <table class="data" id="table-absent">
+                  <thead>
+                    <tr>
+                      <th>Anggota</th>
+                      <th class="num">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <span>e-DEMA • Sistem Manajemen Kehadiran Barcode/QR Code</span>
+        <span>DEMA • Dewan Mahasiswa</span>
+      </footer>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

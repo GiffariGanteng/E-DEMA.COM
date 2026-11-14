@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Scanner Kehadiran • e-DEMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="scanner" data-title="Scanner Barcode">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Scanner Kehadiran</h1>
+            <p class="page-sub">Arahkan QR Code / Barcode anggota ke kamera, kehadiran langsung tercatat.</p>
+          </div>
+          <div class="page-actions">
+            <a href="dashboard.html" class="btn" id="link-dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="reports.html" class="btn" id="link-reports"><i class="fa-solid fa-table-list"></i> Rekap</a>
+          </div>
+        </div>
+
+        <div class="scanner-layout">
+          <div>
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2 class="panel-title">Kamera Pemindai</h2>
+                  <p class="panel-sub">Gunakan kamera belakang untuk hasil terbaik</p>
+                </div>
+                <span class="chip" id="camera-status"><i class="fa-solid fa-circle" style="font-size:6px;color:var(--muted)"></i> Kamera nonaktif</span>
+              </div>
+
+              <div class="panel-body">
+                <div class="field-group" style="margin-bottom:12px">
+                  <label class="field-label" for="schedule-select">Jadwal / kegiatan</label>
+                  <select class="select" id="schedule-select"></select>
+                </div>
+
+                <div class="camera-shell">
+                  <div id="qr-reader"></div>
+                  <div class="camera-idle" id="camera-idle">
+                    <i class="fa-solid fa-camera"></i>
+                    <strong>Kamera belum aktif</strong>
+                    <p>Tekan <em>Mulai Kamera</em> dan izinkan akses kamera pada browser.</p>
+                  </div>
+                </div>
+
+                <div class="camera-toolbar">
+                  <button class="btn btn-accent" id="btn-start" type="button"><i class="fa-solid fa-camera"></i> Mulai Kamera</button>
+                  <button class="btn" id="btn-stop" type="button" disabled><i class="fa-solid fa-stop"></i> Hentikan</button>
+                  <span class="muted small" id="scan-hint">Pemindaian otomatis berjalan setelah kamera aktif.</span>
+                </div>
+
+                <div class="scan-result" id="scan-result" style="margin-top:14px">
+                  <div class="scan-result-title"><i class="fa-solid fa-barcode" style="color:var(--muted)"></i> Menunggu pemindaian</div>
+                  <div class="scan-result-meta">Hasil pemindaian akan muncul di sini beserta status kehadirannya.</div>
+                </div>
+              </div>
+            </section>
+
+            
+          </div>
+
+          <div>
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2 class="panel-title">Ringkasan Jadwal</h2>
+                  <p class="panel-sub" id="schedule-meta">—</p>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px">
+                  <span class="small muted">Peserta tercatat</span>
+                  <strong id="progress-text" style="font-size:13px">0 / 0</strong>
+                </div>
+                <div class="progress" id="progress-bar"><span style="width:0%"></span></div>
+
+                <div class="mini-stats">
+                  <div class="mini-stat"><strong id="stat-hadir" style="color:var(--accent-dark)">0</strong><span>Hadir</span></div>
+                  <div class="mini-stat"><strong id="stat-terlambat" style="color:#b4781e">0</strong><span>Telat</span></div>
+                  <div class="mini-stat"><strong id="stat-excused" style="color:#2a6aa9">0</strong><span>Izin/Sakit</span></div>
+                  <div class="mini-stat"><strong id="stat-alfa" style="color:#b23b34">0</strong><span>Alfa</span></div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section-head" style="margin-bottom:8px">
+                  <span class="section-title" style="font-size:12.5px">Aktivitas terbaru</span>
+                  <span class="small muted" id="feed-count">0 scan</span>
+                </div>
+                <ul class="scan-feed" id="scan-feed"></ul>
+              </div>
+            </section>
+
+            <section class="panel" id="panel-excuse">
+              <div class="panel-head">
+                <div>
+                  <h2 class="panel-title">Catat Izin / Sakit</h2>
+                  <p class="panel-sub">Untuk peserta yang berhalangan hadir</p>
+                </div>
+              </div>
+              <div class="panel-body">
+                <form id="excuse-form">
+                  <div class="field-group" style="margin-bottom:11px">
+                    <label class="field-label" for="excuse-student">Anggota</label>
+                    <select class="select" id="excuse-student"></select>
+                  </div>
+                  <div class="field-group" style="margin-bottom:11px">
+                    <label class="field-label" for="excuse-status">Status</label>
+                    <select class="select" id="excuse-status">
+                      <option value="izin">Izin</option>
+                      <option value="sakit">Sakit</option>
+                      <option value="hadir">Hadir (tanpa scan)</option>
+                    </select>
+                  </div>
+                  <div class="field-group" style="margin-bottom:13px">
+                    <label class="field-label" for="excuse-note">Keterangan (opsional)</label>
+                    <input class="input" id="excuse-note" placeholder="Contoh: surat dokter">
+                  </div>
+                  <button class="btn btn-dark btn-block" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan status</button>
+                </form>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <span>e-DEMA • Sistem Manajemen Kehadiran Barcode/QR Code</span>
+        <span>DEMA • Dewan Mahasiswa</span>
+      </footer>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  </div>
+
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/scanner.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/img/DEMAASLI.png">
+  <title>Rekap &amp; Laporan • e-DEMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="reports" data-title="Rekap &amp; Laporan">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">Rekap &amp; Laporan Kehadiran</h1>
+            <p class="page-sub">Filter riwayat kehadiran lalu ekspor ke Excel, CSV, atau PDF.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn" id="btn-excel" type="button"><i class="fa-solid fa-file-excel"></i> Excel</button>
+            <button class="btn" id="btn-csv" type="button"><i class="fa-solid fa-file-csv"></i> CSV</button>
+            <button class="btn btn-accent" id="btn-pdf" type="button"><i class="fa-solid fa-file-pdf"></i> PDF / Cetak</button>
+          </div>
+        </div>
+
+        <section class="panel no-print">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Filter Laporan</h2>
+              <p class="panel-sub">Rentang tanggal, kegiatan, dan status kehadiran</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="toolbar">
+              <div class="field-group">
+                <label class="field-label" for="f-from">Dari tanggal</label>
+                <input class="input" type="date" id="f-from">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="f-to">Sampai tanggal</label>
+                <input class="input" type="date" id="f-to">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="f-schedule">Kegiatan</label>
+                <select class="select" id="f-schedule"></select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="f-status">Status</label>
+                <select class="select" id="f-status">
+                  <option value="">Semua status</option>
+                  <option value="hadir">Hadir</option>
+                  <option value="terlambat">Terlambat</option>
+                  <option value="izin">Izin</option>
+                  <option value="sakit">Sakit</option>
+                  <option value="alfa">Alfa</option>
+                </select>
+              </div>
+              <div class="field-group grow">
+                <label class="field-label" for="f-q">Pencarian</label>
+                <div class="search-field">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input class="input" id="f-q" placeholder="Nama atau nomor induk..." autocomplete="off">
+                </div>
+              </div>
+              <button class="btn" id="btn-reset" type="button"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="stat-inline" id="summary-chips"></div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Riwayat Kehadiran</h2>
+              <p class="panel-sub" id="report-meta">—</p>
+            </div>
+            <span class="chip" id="report-total">0 baris</span>
+          </div>
+
+          <div class="panel-body tight">
+            <div class="table-wrap">
+              <table class="data" id="table-report">
+                <thead>
+                  <tr>
+                    <th style="width:46px">No</th>
+                    <th>Tanggal</th>
+                    <th>Kegiatan</th>
+                    <th>Anggota</th>
+                    <th>Status</th>
+                    <th>Waktu Scan</th>
+                    <th>Operator</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="pagination" id="report-pagination"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span>e-DEMA • Sistem Manajemen Kehadiran Barcode/QR Code</span>
+        <span>DEMA • Dewan Mahasiswa</span>
+      </footer>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  </div>
+
+  <div class="print-area" id="print-area"></div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/reports.js"></script>
+</body>
+</html>
